@@ -20,7 +20,7 @@ const readAllTheGoals = asyncHandler(async (req, res) => {
 //     @access: Private (the feature is in development)
 const updateGoalByID = asyncHandler(async (req, res) => {
   res.status(200).json({
-    message: `The GOAL with (id = ${req.params.id}) is updated successfuly!`,
+    message: `The GOAL (with id = ${req.params.id}) is updated successfuly!`,
   });
 });
 //@description: DELETE the GOAL by ID

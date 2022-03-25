@@ -1,10 +1,15 @@
 //IMPORT block
 const express = require('express');
 const dotenv = require('dotenv/config');
+const colors = require('colors');
 const { errorHandler } = require('./middleware/errorMiddleware');
+const connectDB = require('./config/db');
 
 //Setup variables
 const PORT = process.env.PORT || 5555;
+
+//Connect to DB
+connectDB();
 
 //Create a new instance of express server
 const app = express();

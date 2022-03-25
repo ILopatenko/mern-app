@@ -1,0 +1,30 @@
+{
+  "name": "mern-app",
+  "version": "1.0.0",
+  "description": "mern app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node ./backend/server.js",
+    "server": "nodemon ./backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ILopatenko/mern-app.git"
+  },
+  "keywords": [],
+  "author": "Iurii Lopatenko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ILopatenko/mern-app/issues"
+  },
+  "homepage": "https://github.com/ILopatenko/mern-app#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "mongoose": "^6.2.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

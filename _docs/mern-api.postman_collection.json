@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "bdefa8e8-3fc2-4085-b1bf-eb13b2de39e5",
+		"name": "mern-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GOAL",
+			"item": [
+				{
+					"name": "createNewGoal",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"My GOAL #1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/goals",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"goals"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "readAllTheGoals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/goals",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"goals"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editGoalByID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/goals/{{goalID}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"{{goalID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteGoalByID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/goals/{{goalID}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"{{goalID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -10,12 +10,25 @@
 			"item": [
 				{
 					"name": "createNewGoal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"goalID\", responseData.createdGoal._id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"text\": \"My GOAL #1\"\n}",
+							"raw": "{\n    \"text\": \"My GOAL #3\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -58,6 +71,15 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"This is my NEW GOAL\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{baseURL}}/api/goals/{{goalID}}",
 							"host": [

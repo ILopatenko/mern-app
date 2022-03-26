@@ -1,10 +1,11 @@
 //IMPORT block
 const asyncHandler = require('express-async-handler');
 const Goal = require('../models/goalModel');
+const User = require('../models/userModel');
 //@description: CREATE a new GOAL
 //      @route: POST at /api/goals
-//     @access: Private (the feature is in development)
-const createNewGoal = async (req, res) => {
+//     @access: Private
+const createNewGoal = asyncHandler(async (req, res) => {
   //IF user does not provide a text value for a new GOAl
   // - sever returns error and statusCode 400
   if (!req.body.text) {
@@ -12,33 +13,42 @@ const createNewGoal = async (req, res) => {
     throw new Error('Add required information!');
   }
   //Create a new goal in DB
-  const goal = await Goal.create({ text: req.body.text });
+  const goal = await Goal.create({ text: req.body.text, user: req.user.id });
   //Send a response to a client
   res.status(200).json({
     message: `The new GOAL is created successfuly!`,
     createdGoal: goal,
   });
-};
-//@description: READ all the GOALS
-//      @route: GET at /api/goals
-//     @access: Private (the feature is in development)
-const readAllTheGoals = asyncHandler(async (req, res) => {
-  const goals = await Goal.find();
+});
+//@description: READ only personal GOALS
+//      @route: GET at /api/goals/my
+//     @access: Private
+const readPersonalGoals = asyncHandler(async (req, res) => {
+  const goals = await Goal.find({ user: req.user.id });
   res.status(200).json({
-    message: 'All the GOALS are red successfuly!',
-    allGoalsArray: goals,
+    message: 'All your GOALS are red successfuly!',
+    allPersonalGoalsArray: goals,
   });
 });
-//@description: UPDATE the GOAL by ID
-//      @route: PUT at /api/goals
-//     @access: Private (the feature is in development)
-const updateGoalByID = asyncHandler(async (req, res) => {
+//@description: UPDATE PERSONAL GOAL by ID
+//      @route: PUT at /api/goals/my/:id
+//     @access: Private
+const updatePersonalGoalByID = asyncHandler(async (req, res) => {
   const goal = await Goal.findById(req.params.id);
   if (!goal) {
     res.status(400);
     throw new Error(
       `The GOAL (with given id = ${req.params.id}) is not found!`
     );
+  }
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    res.status(401);
+    throw new Error(`User is not found!`);
+  }
+  if (goal.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error(`User is not authorized!`);
   }
   const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
@@ -48,10 +58,10 @@ const updateGoalByID = asyncHandler(async (req, res) => {
     updatedGoal: updatedGoal,
   });
 });
-//@description: DELETE the GOAL by ID
+//@description: DELETE PERSONAL GOAL by ID
 //      @route: DELETE at /api/goals
-//     @access: Private (the feature is in development)
-const deleteGoalByID = asyncHandler(async (req, res) => {
+//     @access: Private
+const deletePersonalGoalByID = asyncHandler(async (req, res) => {
   const goal = await Goal.findById(req.params.id);
   if (!goal) {
     res.status(400);
@@ -59,16 +69,24 @@ const deleteGoalByID = asyncHandler(async (req, res) => {
       `The GOAL (with given id = ${req.params.id}) is not found!`
     );
   }
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    res.status(401);
+    throw new Error(`User is not found!`);
+  }
+  if (goal.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error(`User is not authorized!`);
+  }
   const deleteGoal = await Goal.findByIdAndDelete(req.params.id);
   res.status(200).json({
     message: `The GOAL (with id = ${req.params.id}) is deleted successfuly!`,
     deletedGoal: deleteGoal,
   });
 });
-
 module.exports = {
   createNewGoal,
-  readAllTheGoals,
-  updateGoalByID,
-  deleteGoalByID,
+  readPersonalGoals,
+  updatePersonalGoalByID,
+  deletePersonalGoalByID,
 };

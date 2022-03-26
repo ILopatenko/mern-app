@@ -20,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 
 //Setup server routes
 app.use('/api/goals', require('./routes/goalRoutes'));
+app.use('/api/users', require('./routes/userRoutes'));
 
 //Setup error handler
 app.use(errorHandler);

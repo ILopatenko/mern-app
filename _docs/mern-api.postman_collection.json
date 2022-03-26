@@ -24,11 +24,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"text\": \"My GOAL #3\"\n}",
+							"raw": "{\n    \"text\": \"My GOAL #2\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -36,39 +46,112 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/goals",
+							"raw": "{{baseURL}}/api/goals/my",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"goals"
+								"goals",
+								"my"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "readAllTheGoals",
+					"name": "deletePersonalGoalByID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/goals/my/{{goalID}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"my",
+								"{{goalID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "readPersonalGoals",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseURL}}/api/goals",
+							"raw": "{{baseURL}}/api/goals/my",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"goals"
+								"goals",
+								"my"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "editGoalByID",
+					"name": "editPersonalGoalByID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -81,33 +164,129 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/goals/{{goalID}}",
+							"raw": "{{baseURL}}/api/goals/my/{{goalID}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
 								"goals",
+								"my",
 								"{{goalID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USER",
+			"item": [
+				{
+					"name": "createNewUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{userName}}\",\n    \"email\": \"{{userEmail}}\",\n    \"password\": \"{{userPassword}}\",\n    \"password2\": \"{{userPassword2}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/users/register",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"register"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "deleteGoalByID",
+					"name": "loginUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", responseData.user.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
-						"method": "DELETE",
+						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"2{{userEmail}}\",\n    \"password\": \"{{userPassword}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseURL}}/api/goals/{{goalID}}",
+							"raw": "{{baseURL}}/api/users/login",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"goals",
-								"{{goalID}}"
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "readPersonalProfile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/users/me",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"me"
 							]
 						}
 					},
